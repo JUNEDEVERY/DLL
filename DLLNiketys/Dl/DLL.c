@@ -23,13 +23,14 @@ BOOL WINAPI DllMain(HINSTANCE hlnstDll, DWORD dwReason, LPVOID IpReserved)
 LPWSTR Reading(LPWSTR path)
 {
 	
-	DWORD d = 0;
+	DWORD d = 0; // weight
+	// 2 байта в юникоде
 	HINSTANCE FileHandle = CreateFile(PATH, GENERIC_READ, FILE_SHARE_WRITE | FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	LPWSTR ReadString = calloc(100500, sizeof(WCHAR));
 	ReadFile(FileHandle, ReadString, 100500 * sizeof(WCHAR), &d, NULL);
 	CloseHandle(FileHandle); // закрываем дескриптор
 	ReadString[d / 2] = '\n';
-	ReadString[d / 2 + 1] = '\0';
+	ReadString[d / 2 + 1] = '\0'; // что бы не заменить '\n' на '\0' мы к 60\2 делаем +1
 	return ReadString;
 }
 
